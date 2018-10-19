@@ -1,11 +1,3 @@
----
-title: JVM Memory Settings in a Container Environment
-tags: java jvm docker heap
-canonicalUrl: https://github.com/atamanroman/writing/blob/master/articles/2018/container-java-memory/container-java-memory-settings.md
-publishStatus: draft
-license: all-rights-reserved
----
-
 # JVM Memory Settings in a Container Environment
 
 ## About us
@@ -61,12 +53,14 @@ There are other ways how to control the heap, too. We can adjust `MaxRAM`, effec
 
 Now the JVM is back in charge calculating the heap size, we just fine tune the parameters. In this case we end up with 256 MB max heap. That's fine for a desktop, but a bit conservative for a dedicated host. If we spend good money on a VPS with 1 GB RAM, we'd like the JVM to make better use of the available resources. Here `-XX:MaxRAMFraction` comes into play. This parameter controls how much of the total RAM is up for grabs. `1/MaxRAMFraction` yields the percentage of RAM we can use. Since it only allows integer values > 0, there are only a few sensible configurations.
 
-| MaxRAMFraction | % of RAM for heap |
-|:--|:--|
-| 1 | 100% |
-| 2 | 50% |
-| 3 | 33% |
-| 4 | 25% |
+    +----------------+-------------------+
+    | MaxRAMFraction | % of RAM for heap |
+    |----------------+-------------------|
+    |              1 |              100% |
+    |              2 |               50% |
+    |              3 |               33% |
+    |              4 |               25% |
+    +----------------+-------------------+
 
 So for our dedicated 1 GB server it's enough to set `-XX:MaxRAMFraction=2` and we end up 512 MB max RAM.
 
