@@ -61,7 +61,7 @@ There are other ways how to control the heap, too. We can adjust `MaxRAM`, effec
 
 Now the JVM is back in charge calculating the heap size, we just fine tune the parameters. In this case we end up with 256 MB ma heap. That's fine for a desktop, but a bit conservative for a dedicated host. If we spend good money on a VPS with 1 GB RAM, we'd like the JVM to make better use of the available resources. Here comes `-XX:MaxRAMFraction` into play. This parameter controls how much of the total RAM is up for grabs. `1/MaxRAMFraction` yields the percentage of RAM we can use for heap. Since it only allows integer values > 0, there are only a few sensible configurations.
 
-| Fraction | % of RAM for heap |
+| MaxRAMFraction | % of RAM for heap |
 |:--|:--|
 | 1 | 100% |
 | 2 | 50% |
@@ -86,13 +86,13 @@ That looks pretty good for prod!
 Tweaking the JVM memory settings when deploying on a container platform is not trivial. Applications running in a Docker container always see the full resources available. cgroup[^cgroup] limits are just not visible that way. See for yourself[^docker_vm_note]:
 
 ```shell
-$ docker run -it --rm alpine free -m
+$ docker run --rm alpine free -m
              total     used     free   shared  buffers   cached
 Mem:          1998     1565      432        0        8     1244
 ```
 
 ```shell
-$ docker run -it --rm -m 256m alpine free -m
+$ docker run --rm -m 256m alpine free -m
              total     used     free   shared  buffers   cached
 Mem:          1998     1552      445        1        8     1244
 ```
@@ -106,12 +106,12 @@ So what's the fix? We *could* configure the JVM manually by setting `-Xmx` or `-
 To make the JVM play well with cgroup memory limits a new option `-XX:+UseCGroupMemoryLimitForHeap` was introduced. It sounds fancy but is pretty simple once you know the basics. It allows setting the heap according to the cgroup memory limit. The JVM reads the limit from `/sys/fs/cgroup/memory/memory.limit_in_bytes` and uses that value instead of `-XX:MaxRAM`.
 
 ```shell
-$ docker run -it --rm -m 1g alpine cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+$ docker run --rm -m 1g openjdk:8-jdk cat /sys/fs/cgroup/memory/memory.limit_in_bytes
 1073741824
 ```
 
 ```shell
-$ docker run -it --rm -m 1g openjdk:8-jdk sh -c "java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -version | grep -Ei 'maxheapsize|maxram'"
+$ docker run --rm -m 1g openjdk:8-jdk sh -c "java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -version | grep -Ei 'maxheapsize|maxram'"
     uintx DefaultMaxRAMFraction   = 4             {product}
     uintx MaxHeapSize            := 268435456     {product}     # = 1073741824 / 4
     uint64_t MaxRAM               = 137438953472  {pd product}
@@ -131,6 +131,11 @@ So `-XX:MaxRAMFraction=1` should be avoided in any case. That leaves us with 50%
 ## Possible Fixes
 
 TODO manuelle config, java10, selbst bauen im entrypoint, maxram bescheissen, ...
+
+MaxRAM auf 70% (bricht ohne cgroup limit)
+```
+docker run --rm -m 1g openjdk:8-jdk sh -c 'exec java -XX:MaxRAM=$(( $(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) * 100 / 70 )) -XX:+PrintFlagsFinal -version'
+```
 
 ## What About CPU and Other Quotas
 
