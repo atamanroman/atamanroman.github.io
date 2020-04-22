@@ -1,0 +1,6 @@
+[submodule "themes/archie"]
+	path = themes/archie
+	url = https://github.com/athul/archie
+[submodule "themes/kiera"]
+	path = themes/kiera
+	url = https://github.com/funkydan2/hugo-kiera.git

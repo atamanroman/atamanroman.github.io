@@ -1,5 +1,1 @@
-*.iml
-.idea/
-target/
-.DS_Store
-*.tmp
+public/

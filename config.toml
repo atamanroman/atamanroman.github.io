@@ -1,0 +1,19 @@
+baseURL = "https://atamanroman.github.io/"
+languageCode = "en-us"
+title = "@atamanroman"
+theme = "kiera"
+pygmentsCodeFences = true
+
+[permalinks]
+  blog = "/blog/:year/:month/:slug/"
+
+[author]
+  name = "Roman Ataman"
+  github = "atamanroman"
+  linkedin = "atamanroman"
+  twitter = "atamanroman"
+  stackoverflow = "users/366299/atamanroman"
+
+[params]
+  tagline = "My Personal Space Show"
+  customCSS = []  #Optional Customised CSS

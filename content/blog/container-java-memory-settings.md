@@ -1,8 +1,14 @@
-# JVM Memory Settings in a Container Environment
+---
+title: JVM Memory Settings in a Container Environment - The Bare Minimum You Should Know Before Going Live
+description:
+date: 2018-11-10
+category: [development]
+tags: [jvm, docker]
+---
 
 ## UPDATE: Things Have Changed for Java 8u191+ and 10/11/12+
 
-A lot has changed since Java 8u191 and things should work out of the box. So this article is partly out-of-date. We're keeping it online as a reference but please see our follow-up article [_+UseContainerSupport to the Rescue_](https://medium.com/adorsys/TODO) for more details.
+A lot has changed since Java 8u191 and things should work out of the box. So this article is partly out-of-date. We're keeping it online as a reference but please see our follow-up article [_+UseContainerSupport to the Rescue_]({{< ref "/blog/usecontainersupport-to-the-rescue.md" >}}) for more details.
 
 ## About us
 
