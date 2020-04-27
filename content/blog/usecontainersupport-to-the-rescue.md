@@ -3,7 +3,7 @@ title: +UseContainerSupport to the Rescue
 slug: usecontainersupport-to-the-rescue
 date: 2019-09-11
 category: [development]
-tags: [jvm, docker]
+tags: [java, jvm, docker]
 ---
 
 ## TL;DR: How the JVM Finally Plays Nice with Containers

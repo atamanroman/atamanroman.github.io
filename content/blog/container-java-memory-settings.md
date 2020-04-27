@@ -3,7 +3,7 @@ title: JVM Memory Settings in a Container Environment
 slug: jvm-memory-settings-container-environment
 date: 2018-11-10
 category: [development]
-tags: [jvm, docker]
+tags: [java, jvm, docker]
 ---
 
 ## TL;DR: The Bare Minimum You Should Know Before Going Live
