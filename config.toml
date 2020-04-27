@@ -17,6 +17,7 @@ pygmentsCodeFences = true
 [params]
   tagline = "My Personal Space Show"
   customCSS = []  #Optional Customised CSS
+  favicon = "favicon.svg"
 
 [markup]
   [markup.highlight]
