@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ "*" ]
   pull_request:
-    branches: [ master ]
+    branches: [ "*" ]
 
 jobs:
   # This workflow contains a single job called "build"
@@ -19,22 +19,8 @@ jobs:
         uses: peaceiris/actions-hugo@v2
       - name: Build
         run: hugo --minify
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: public
-          path: public
-  deploy:
-    runs-on: ubuntu-18.04
-#     if: contains(github.ref, 'master')
-    needs: [ build ]
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: public
-          path: public
       - name: Deploy
+        if: contains(github.ref, 'master')
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
