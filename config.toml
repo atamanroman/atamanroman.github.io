@@ -17,3 +17,14 @@ pygmentsCodeFences = true
 [params]
   tagline = "My Personal Space Show"
   customCSS = []  #Optional Customised CSS
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    lineNoStart = 1
+    lineNos = true
+    noClasses = true
+    # "manni" works well, too
+    style = "friendly"
+    tabWidth = 2

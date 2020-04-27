@@ -1,4 +1,4 @@
-package io.github.atamanroman.loadtest;
+package com.github.atamanroman.loadtest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

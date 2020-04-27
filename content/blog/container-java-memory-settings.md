@@ -1,32 +1,33 @@
 ---
-title: JVM Memory Settings in a Container Environment - The Bare Minimum You Should Know Before Going Live
-description:
+title: JVM Memory Settings in a Container Environment
+slug: jvm-memory-settings-container-environment
 date: 2018-11-10
 category: [development]
 tags: [jvm, docker]
+---
+
+## TL;DR: The Bare Minimum You Should Know Before Going Live
+
+Java memory management and configuration is still complex. Although the JVM can read cgroup memory limits and adapt memory usage accordingly since Java 9/8u131, it's not a golden bullet. You need to know what `-XX:+UseCGroupMemoryLimitForHeap` does and you need to fine tune some parameters for every deployment. Otherwise you risk wasting resources and money or getting your containers killed at the worst time possible. `-XX:MaxRAMFraction=1` is especially dangerous. Java 10+ brings a lot of improvements but still needs manual configuration. To be safe, load test your stuff.
+<!--more-->
+
 ---
 
 ## UPDATE: Things Have Changed for Java 8u191+ and 10/11/12+
 
 A lot has changed since Java 8u191 and things should work out of the box. So this article is partly out-of-date. We're keeping it online as a reference but please see our follow-up article [_+UseContainerSupport to the Rescue_]({{< ref "/blog/usecontainersupport-to-the-rescue.md" >}}) for more details.
 
+---
+
 ## About us
 
 [Joe](https://github.com/jkroepke) and [I](https://twitter.com/atamanroman) both do a lot of work with Java on OpenShift/Kubernetes. Joe has a very strong operations background and I feel more at home with software development — yet we often do similar stuff. We also like to ~~argue~~ work together and this article is the result of one particularly interesting discussion about the JVM setting `+UseCGroupMemoryLimit`. We stitched this article together during a few Fridays at the office at [adorsys](https://adorsys.de).
-
----
-
-## TL;DR
-
-Java memory management and configuration is still complex. Although the JVM can read cgroup memory limits and adapt memory usage accordingly since Java 9/8u131, it's not a golden bullet. You need to know what `-XX:+UseCGroupMemoryLimitForHeap` does and you need to fine tune some parameters for every deployment. Otherwise you risk wasting resources and money or getting your containers killed at the worst time possible. `-XX:MaxRAMFraction=1` is especially dangerous. Java 10+ brings a lot of improvements but still needs manual configuration. To be safe, load test your stuff.
-
----
 
 ## Java Heap Sizing Basics
 
 Per default the JVM automatically configures heap size according to the spec of the machine it is running on. On my brand new MacBook Pro 2018 this yields the following heap size:
 
-```shell
+```sh
 $ java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     uintx DefaultMaxRAMFraction   = 4             {product}
     uintx MaxHeapSize             := 8589934592   {product}
@@ -42,7 +43,7 @@ The constant overhead is all memory allocated by the JVM which is not heap or st
 
 You can change how the JVM does its memory management. The most common thing is to set *MaxHeap* (`-Xmx`) to a fixed, more or less carefully guessed value.
 
-```shell
+```sh
 $ java -XX:+PrintFlagsFinal -Xmx1g -version | grep -Ei "maxheapsize|maxram"
 
     uintx DefaultMaxRAMFraction   = 4            {product}
@@ -53,7 +54,7 @@ $ java -XX:+PrintFlagsFinal -Xmx1g -version | grep -Ei "maxheapsize|maxram"
 
 There are other ways to control the heap, too. We can adjust `MaxRAM`, effectively simulating a smaller machine.
 
-```shell
+```sh
  $ java -XX:+PrintFlagsFinal -XX:MaxRAM=1g -version | grep -Ei "maxheapsize|maxram"
     uintx DefaultMaxRAMFraction   = 4            {product}
     uintx MaxHeapSize             := 268435456   {product}
@@ -61,20 +62,18 @@ There are other ways to control the heap, too. We can adjust `MaxRAM`, effective
     uintx MaxRAMFraction          = 4            {product}
 ```
 
-Now the JVM is back in charge calculating the heap size, we just fine tune the parameters. In this case we end up with 256 MB max heap. That's fine for a desktop, but a bit conservative for a dedicated host. If we spend good money on a VPS with 1 GB RAM, we'd like the JVM to make better use of the available resources. Here `-XX:MaxRAMFraction` comes into play. This parameter controls how much of the total RAM is up for grabs. `1/MaxRAMFraction` yields the percentage of RAM we can use. Since it only allows integer values > 0, there are only a few sensible configurations.
+Now the JVM is back in charge calculating the heap size, we just fine tune the parameters. In this case we end up with 256 MB max heap. That's fine for a desktop, but a bit conservative for a dedicated host. If we spend good money on a VPS with 1 GB RAM, we'd like the JVM to make better use of the available resources. Here `-XX:MaxRAMFraction` comes into play. This parameter controls how much of the total RAM is up for grabs. `1/MaxRAMFraction` yields the percentage of RAM we can use. Since it only allows integer values > 0, there are only a few sensible configurations:
 
-    +----------------+-------------------+
-    | MaxRAMFraction | % of RAM for heap |
-    |----------------+-------------------|
-    |              1 |              100% |
-    |              2 |               50% |
-    |              3 |               33% |
-    |              4 |               25% |
-    +----------------+-------------------+
+| MaxRAMFraction | % of RAM for heap |
+|:--------------:|:-----------------:|
+|              1 |              100% |
+|              2 |               50% |
+|              3 |               33% |
+|              4 |               25% |
 
 So for our dedicated 1 GB server it's enough to set `-XX:MaxRAMFraction=2` and we end up 512 MB max RAM.
 
-```shell
+```sh
 # -XX:MaxRAM is only set for the sake of this example to simulate a smaller physical machine
 $ java -XX:+PrintFlagsFinal -XX:MaxRAM=1g -XX:MaxRAMFraction=2 -version | grep -Ei "maxheapsize|maxram"
     uintx DefaultMaxRAMFraction   = 4            {product}
@@ -89,13 +88,13 @@ That looks pretty good for prod!
 
 There are a lot of things you need to know to properly set up a JVM in a container. For instance, applications running in a Docker container always see the full resources available. It's not very intuitive, but cgroup[^cgroup] limits are not visible for the contained process. See for yourself[^docker_vm]:
 
-```shell
+```sh
 $ docker run --rm alpine free -m
              total     used     free   shared  buffers   cached
 Mem:          1998     1565      432        0        8     1244
 ```
 
-```shell
+```sh
 $ docker run --rm -m 256m alpine free -m
              total     used     free   shared  buffers   cached
 Mem:          1998     1552      445        1        8     1244
@@ -109,12 +108,12 @@ So what's the fix? We *could* configure the JVM manually by setting `-Xmx` or `-
 
 To make the JVM play well with cgroup memory limits a new option `-XX:+UseCGroupMemoryLimitForHeap` was introduced. It sounds fancy but is pretty simple once you know the basics. It allows setting the heap to the cgroup memory limit. The JVM reads from `/sys/fs/cgroup/memory/memory.limit_in_bytes` and uses that value instead of `-XX:MaxRAM`.
 
-```shell
+```sh
 $ docker run --rm -m 1g openjdk:8-jdk cat /sys/fs/cgroup/memory/memory.limit_in_bytes
 1073741824
 ```
 
-```shell
+```sh
 $ docker run --rm -m 1g openjdk:8-jdk sh -c "java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -version | grep -Ei 'maxheapsize|maxram'"
     uintx DefaultMaxRAMFraction   = 4             {product}
     uintx MaxHeapSize            := 268435456     {product}     # = 1073741824 / 4
@@ -124,13 +123,13 @@ $ docker run --rm -m 1g openjdk:8-jdk sh -c "java -XX:+PrintFlagsFinal -XX:+Unlo
 
 And that's it. 1 GB memory quota yields 256 MB heap. Exactly the same as in the non-docker examples. Note that `-XX:+UseCGroupMemoryLimitForHeap` requires `-XX:+UnlockExperimentalVMOptions` in order to work. And there's a good reason to it.
 
-So the JVM is now aware of cgroup memory limits - you just need to enable that feature. Are we done here? We thought so at first. If you searched for *java container heap configuration prod* or something like that, almost every blog post was just advising you to set that flag and have a nice day. And we followed that advice - until we encountered some obviously broken behaviour. Containers limited to very small amounts of memory would almost instantly get *OOMKilled*. Which means the container tried to allocate more than 128 MB.
+So the JVM is now aware of cgroup memory limits – you just need to enable that feature. Are we done here? We thought so at first. If you searched for *java container heap configuration prod* or something like that, almost every blog post was just advising you to set that flag and have a nice day. And we followed that advice – until we encountered some obviously broken behaviour. Containers limited to very small amounts of memory would almost instantly get *OOMKilled*. Which means the container tried to allocate more than 128 MB.
 With everything we knew back then this should not happen. I mean the JVM *knew* there was only so much memory available. If anything, I'd have expected an `OutOfMemoryError` if the heap was really too tight.
 On the other hand, containers with larger memory limits were very inefficient. Using less than half of the 8 GB reserved memory per deployment wastes a lot of resources.
 
 As it turns out using the cgroup memory limit instead of `-XX:MaxRAM` is not enough. Depending on the actual limit you can run into efficiency or stability issues. That's where people start tweaking with `-XX:MaxRAMFraction=1` so that the JVM can use all of the RAM for heap. But some basic load testing[^load_tests] showed that's too much. As stated earlier, the JVM needs some memory per thread for its stack and some constant amount on top of it. Also there is often other stuff in a container which could possibly allocate additional memory (like SSHd, monitoring processes, the shell which spawned your process, ...). And, last but not least, you *might* want to have enough free memory to be actually able to `docker exec` into your container to trigger a heap dump or attach a debugger. So you risk getting your container killed under load.
 
-Getting *OOMKilled* is not a good thing. Your app can't react to in any way - it just gets killed. In my opinion, this should never happen. I always want to get an `OutOfMemoryError` when heap runs out so I can get a heap dump and analyse it. *OOMKilled* should only happen if there is something *really broken* like a memory leak in the JVM. That is necessary to protect other deployments on the same node.
+Getting *OOMKilled* is not a good thing. Your app can't react to in any way – it just gets killed. In my opinion, this should never happen. I always want to get an `OutOfMemoryError` when heap runs out so I can get a heap dump and analyse it. *OOMKilled* should only happen if there is something *really broken* like a memory leak in the JVM. That is necessary to protect other deployments on the same node.
 If one instance of your service gets killed under heavy load it's more likely that other instances go down with them as well because the load gets rebalanced. This can snowball and kill your whole system, which otherwise might have worked pretty OK if the resources were set and limited properly. The worst thing is that this type of bug only occurs if your system is under stress. Not a good time to fail.
 
 So `-XX:MaxRAMFraction=1` should be avoided in any case. That leaves us with 50% or less memory utilisation. I'd say, that is not acceptable for most configurations. After some testing, we found out that most of our services required roughly 250 MB additional free RAM to be really safe. So the bigger the memory gets, the less useful becomes `-XX:+UseCGroupMemoryLimitForHeap`.
@@ -153,7 +152,7 @@ Since `+UseContainerSupport` is enabled by default, everything should work out o
 
 Tests were run with Azul JDK 8 and OpenJDK 10 on a 32 GB MacBook Pro (15-inch, 2018).
 
-```shell
+```sh
 $ use-java10
 JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home
 $ java -version
@@ -191,7 +190,7 @@ Results may depend on JVM versions and vendors.
 [^java10_maxramchanges]: Java 10 deprecates all `-XX:{Initial|Min|Max}RAMFraction` flags and introduced the corresponding `-XX:{Initial|Min|Max}RAMPercentage` flags.
 [^java11_removed]: removed in Java 11
 [^jvm_overhead]: <https://developers.redhat.com/blog/2017/04/04/openjdk-and-containers>
-[^load_tests]: <https://github.com/atamanroman/writing/tree/master/articles/2018/container-java-memory/loadtest>
+[^load_tests]: <https://github.com/atamanroman/portfolio/tree/master/static/container-java-memory-settings/loadtest>
 [^maxram]: Please note that the MaxRAM value shows the maximum amount of memory possible for the given architecture (32/64 bit).
 [^nat_mem_track]: <https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html>
 [^small_ram]: This changes for small RAM values. On my machine, the JVM uses MaxRAMFraction=2 if there is <= 256 MB RAM and MaxRAMFraction=1 if there is <= 8 MB RAM.
