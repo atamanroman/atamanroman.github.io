@@ -11,6 +11,7 @@ theme = "smol"
 [params]
   subtitle = ""
   favicon = "favicon.svg"
+  dateFmt = "2006-01-02"
 
 [markup]
   [markup.highlight]
@@ -25,11 +26,6 @@ theme = "smol"
 
 # Header
 [menu]
-  [[menu.main]]
-    identifier = "posts"
-    name = "Posts"
-    url = "/posts/"
-    weight = 1
 
   [[menu.main]]
     identifier = "cv"

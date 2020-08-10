@@ -53,6 +53,17 @@ code,kbd,pre{
   font-family: SF Mono, Monaco, monospace;
 }
 
+blockquote {
+  padding: 2vw;
+  margin-left: 0;
+  margin-right: 0;
+  border-left: 1vw solid royalblue;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
 pre {
   font-size: smaller;
   padding: 2vw;
@@ -90,6 +101,10 @@ hr {
   color: var(--accent-color);
 }
 
+aside {
+  margin: 5vw 0;
+}
+
 .center {
   display: block;
   margin-left: auto;
@@ -99,8 +114,13 @@ hr {
 
 .logo, .logo:visited {
   text-align: right;
-  line-height: 1;
+  line-height: 0.75;
   font-size: 1vw;
   color: var(--accent-color);
   text-decoration: none;
+}
+
+.note {
+  padding: 2vw;
+  background-color: cornsilk;
 }
