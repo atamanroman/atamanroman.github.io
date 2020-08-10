@@ -1,0 +1,106 @@
+:root {
+  --accent-color: royalblue;
+  --dim-accent-color: darkslateblue;
+  --fg-color: black;
+  --bg-color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dim-accent-color: lightsteelblue;
+    --fg-color: whitesmoke;
+    --bg-color: black;
+  }
+
+  code {
+    color: var(--bg-color);
+  }
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body{
+  font-size: calc(12px + 0.7vw);
+  line-height: calc(1.2em + 0.7vw);
+  font-family: monospace;
+  margin: 2em auto;
+  max-width: 40em;
+  padding: 0 1em;
+  color: var(--fg-color);
+  background-color: var(--bg-color);
+
+}
+img, video{
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+:not(pre) > code {
+  color: var(--bg-color);
+  background: var(--fg-color);
+  padding: 0.1em;
+}
+
+code,kbd,pre{
+  font-family: SF Mono, Monaco, monospace;
+}
+
+pre {
+  font-size: smaller;
+  padding: 2vw;
+}
+
+article {
+  padding: 1em 0;
+  overflow-wrap: break-word;
+}
+
+article p {
+  text-align: justify;
+}
+
+table{
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th{
+  padding: 0.5em;
+  border: 1px solid;
+}
+
+a {
+  color: var(--accent-color);
+}
+
+article a:visited {
+  color: var(--dim-accent-color);
+}
+
+hr {
+  width: 75%;
+  border-style: dotted;
+  color: var(--accent-color);
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.logo, .logo:visited {
+  text-align: right;
+  line-height: 1;
+  font-size: 1vw;
+  color: var(--accent-color);
+  text-decoration: none;
+}
