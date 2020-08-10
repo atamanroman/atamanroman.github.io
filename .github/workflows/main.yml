@@ -24,6 +24,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          external_repository: atamanroman/atamanroman.github.io
-          publish_branch: master
+          # external_repository: atamanroman/atamanroman.github.io
+          # publish_branch: master
           publish_dir: ./public
