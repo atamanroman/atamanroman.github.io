@@ -27,3 +27,4 @@ jobs:
           # external_repository: atamanroman/atamanroman.github.io
           # publish_branch: master
           publish_dir: ./public
+          cname: www.atamanroman.dev
