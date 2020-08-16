@@ -1,17 +1,11 @@
-baseURL = "https://www.atamanroman.dev/"
+baseURL = "https://atamanroman.dev/"
 languageCode = "en-us"
 title = "atamanroman.dev"
-pygmentsCodeFences = true
-theme = "smol"
-
-[permalinks]
-  blog = "/blog/:year/:month/:slug/"
-  cv = "cv.html"
 
 [params]
-  subtitle = ""
   favicon = "favicon.svg"
   dateFmt = "2006-01-02"
+  mainSections = ["articles", "links"]
 
 [markup]
   [markup.highlight]
@@ -19,20 +13,12 @@ theme = "smol"
     guessSyntax = false
     lineNoStart = 1
     lineNos = true
-    noClasses = true
-    # "manni" works well, too
-    style = "emacs"
+    noClasses = false
+    style = "github"
     tabWidth = 2
 
 # Header
 [menu]
-
-  [[menu.main]]
-    identifier = "cv"
-    name = "CV"
-    url = "/cv.html"
-    weight = 2
-
   [[menu.main]]
     identifier = "tags"
     name = "Tags"

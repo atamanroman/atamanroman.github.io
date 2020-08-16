@@ -2,7 +2,7 @@
 title: Change Your Git User Depending on the Current Directory with Conditional Includes
 slug: change-git-user-depending-current-directory-conditional-include
 date: 2020-08-10
-category: [development]
+categories: [development]
 tags: [git, terminal, tooling]
 link: https://www.motowilliams.com/conditional-includes-for-git-config
 ---

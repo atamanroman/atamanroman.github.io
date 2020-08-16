@@ -2,9 +2,8 @@
 title: JVM Memory Settings in a Container Environment
 slug: jvm-memory-settings-container-environment
 date: 2018-11-10
-category: [development]
+categories: [development]
 tags: [java, jvm, docker]
-draft: true
 ---
 
 ## TL;DR: The Bare Minimum You Should Know Before Going Live
@@ -16,7 +15,7 @@ Java memory management and configuration is still complex. Although the JVM can 
 
 ## UPDATE: Things Have Changed for Java 8u191+ and 10/11/12+
 
-A lot has changed since Java 8u191 and things should work out of the box. So this article is partly out-of-date. We're keeping it online as a reference but please see our follow-up article [_+UseContainerSupport to the Rescue_]({{< ref "/posts/usecontainersupport-to-the-rescue.md" >}}) for more details.
+A lot has changed since Java 8u191 and things should work out of the box. So this article is partly out-of-date. We're keeping it online as a reference but please see our follow-up article [_+UseContainerSupport to the Rescue_]({{< ref "/articles/usecontainersupport-to-the-rescue.md" >}}) for more details.
 
 ---
 
@@ -191,7 +190,7 @@ Results may depend on JVM versions and vendors.
 [^java10_maxramchanges]: Java 10 deprecates all `-XX:{Initial|Min|Max}RAMFraction` flags and introduced the corresponding `-XX:{Initial|Min|Max}RAMPercentage` flags.
 [^java11_removed]: removed in Java 11
 [^jvm_overhead]: <https://developers.redhat.com/blog/2017/04/04/openjdk-and-containers>
-[^load_tests]: <https://github.com/atamanroman/portfolio/tree/master/static/container-java-memory-settings/loadtest>
+[^load_tests]: <https://github.com/atamanroman/portfolio/tree/master/static/articles/jvm-memory-settings-container-environment/loadtest>
 [^maxram]: Please note that the MaxRAM value shows the maximum amount of memory possible for the given architecture (32/64 bit).
 [^nat_mem_track]: <https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html>
 [^small_ram]: This changes for small RAM values. On my machine, the JVM uses MaxRAMFraction=2 if there is <= 256 MB RAM and MaxRAMFraction=1 if there is <= 8 MB RAM.
