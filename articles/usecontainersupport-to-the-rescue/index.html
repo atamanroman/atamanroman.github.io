@@ -1,0 +1,62 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><link rel=icon type=image/svg+xml href=favicon.svg sizes=any><style type=text/css>body{font-family:monospace}</style><title>+UseContainerSupport to the Rescue</title><link rel=stylesheet href=/css/style.css></head><body><header><a class=logo href=https://atamanroman.dev/><pre>
+ █████╗ ████████╗ █████╗ ███╗   ███╗ █████╗ ███╗   ██╗
+██╔══██╗╚══██╔══╝██╔══██╗████╗ ████║██╔══██╗████╗  ██║
+███████║   ██║   ███████║██╔████╔██║███████║██╔██╗ ██║
+██╔══██║   ██║   ██╔══██║██║╚██╔╝██║██╔══██║██║╚██╗██║
+██║  ██║   ██║   ██║  ██║██║ ╚═╝ ██║██║  ██║██║ ╚████║
+╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+
+        ██████╗  ██████╗ ███╗   ███╗ █████╗ ███╗   ██╗
+        ██╔══██╗██╔═══██╗████╗ ████║██╔══██╗████╗  ██║
+        ██████╔╝██║   ██║██╔████╔██║███████║██╔██╗ ██║
+        ██╔══██╗██║   ██║██║╚██╔╝██║██╔══██║██║╚██╗██║
+        ██║  ██║╚██████╔╝██║ ╚═╝ ██║██║  ██║██║ ╚████║
+        ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+
+                             ██████╗ ███████╗██╗   ██╗
+                             ██╔══██╗██╔════╝██║   ██║
+                             ██║  ██║█████╗  ██║   ██║
+                             ██║  ██║██╔══╝  ╚██╗ ██╔╝
+                          ██╗██████╔╝███████╗ ╚████╔╝&nbsp;
+                          ╚═╝╚═════╝ ╚══════╝  ╚═══╝&nbsp;&nbsp;
+</pre></a><div></div><p><nav><a href=/><b>Start</b></a>
+· <a href=/tags/><b>Tags</b></a></nav></p></header><main><article><h1>+UseContainerSupport to the Rescue</h1><b><time>2019-09-11</time></b>
+<a href=/tags/java>java</a>
+<a href=/tags/jvm>jvm</a>
+<a href=/tags/docker>docker</a><div><h2 id=tldr-how-the-jvm-finally-plays-nice-with-containers>TL;DR: How the JVM Finally Plays Nice with Containers</h2><p>Java 10 introduced <code>+UseContainerSupport</code> (enabled by default) which makes the JVM use sane defaults in a container environment. This feature is backported to Java 8 since <a href=https://www.oracle.com/technetwork/java/javase/8u191-relnotes-5032181.html#JDK-8146115>8u191</a>, potentially allowing a <a href=https://snyk.io/blog/jvm-ecosystem-report-2018/>huge percentage of Java deployments in the wild</a> to properly configure their memory.</p><hr><h2 id=introduction>Introduction</h2><p><em>It&rsquo;s been a pretty busy time at <a href=https://adorsys.de>adorsys.de</a>, but Joe and I have finally found time to write a follow-up to our outdated-but-still-interesting article <a href=https://atamanroman.dev/articles/jvm-memory-settings-container-environment/>JVM Memory Settings in a Container Environment</a>. You might want to read it for a more in-depth view how memory management in the JVM works and what happens – or used to happen – if the JVM runs in a container.</em></p><h2 id=what-is-usecontainersupport>What is +UseContainerSupport?</h2><p><code>-XX:+UseContainerSupport</code> allows the JVM to read <a href=https://en.wikipedia.org/wiki/Cgroups>cgroup limits</a> like available CPUs and RAM from the host machine and configure itself accordingly. Doing so allows the JVM to die with an <code>OutOfMemoryError</code> instead of the container being killed. The flag is available on Java 8u191+, 10 and newer. <strong>It&rsquo;s enabled by default on Linux machines.</strong></p><p>The old (and somewhat broken) flags <code>-XX:{Min|Max}RAMFraction</code> are now deprecated. There is a new flag <code>-XX:MaxRAMPercentage</code>, that takes a value between <em>0.0</em> and <em>100.0</em> and defaults to <em>25.0</em>. So if there is a <em>1 GB</em> memory limit, the JVM heap is limited to <em>~250 MB</em> by default. While this can certainly be improved - depending on the RAM size and workload – it&rsquo;s a pretty good default <a href=https://atamanroman.dev/articles/jvm-memory-settings-container-environment/>compared to the old behaviour</a>.</p><p><strong>Please note that setting <code>-Xmx</code> and <code>-Xms</code> disables the automatic heap sizing.</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-sh data-lang=sh><span class=c1># check if +UseContainerSupport is enabled</span>
+$ java -XX:+PrintFlagsFinal -version <span class=p>|</span> grep UseContainerSupport
+ bool <span class=nv>UseContainerSupport</span> <span class=o>=</span> <span class=nb>true</span> <span class=o>{</span>product<span class=o>}</span>
+
+<span class=c1># how it works</span>
+$ docker run --rm -ti -m10m adorsys/java:8 java -XX:+PrintFlagsFinal -version <span class=p>|</span> grep MaxHeapSize
+ uintx MaxHeapSize :<span class=o>=</span> <span class=m>8388608</span> <span class=o>{</span>product<span class=o>}</span> <span class=c1># ~8M / 80%</span>
+$ docker run --rm -ti -m100m adorsys/java:8 java -XX:+PrintFlagsFinal -version <span class=p>|</span> grep MaxHeapSize
+ uintx MaxHeapSize :<span class=o>=</span> <span class=m>50331648</span> <span class=o>{</span>product<span class=o>}</span> <span class=c1># ~50M / 50%</span>
+$ docker run --rm -ti -m200m adorsys/java:8 java -XX:+PrintFlagsFinal -version <span class=p>|</span> grep MaxHeapSize
+ uintx MaxHeapSize :<span class=o>=</span> <span class=m>100663296</span> <span class=o>{</span>product<span class=o>}</span> <span class=c1># ~100M / 50%</span>
+$ docker run --rm -ti -m20g adorsys/java:8 java -XX:+PrintFlagsFinal -version <span class=p>|</span> grep MaxHeapSize
+ uintx MaxHeapSize :<span class=o>=</span> <span class=m>5001707520</span> <span class=o>{</span>product<span class=o>}</span> <span class=c1># ~5G / 25%</span>
+$ docker run --rm -ti -m20g adorsys/java:8 java -XX:+PrintFlagsFinal -XX:MaxRAMPercentage<span class=o>=</span>90.0 -version <span class=p>|</span> grep MaxHeapSize
+ uintx MaxHeapSize :<span class=o>=</span> <span class=m>19327352832</span> <span class=c1># ~19G / 90%</span>
+</code></pre></td></tr></table></div></div><h2 id=our-experience-in-prod>Our Experience in Prod</h2><p>We use <code>-XX:+UseContainerSupport</code> successfully in production. With reasonable RAM limits (> 1GB) we default to <code>-XX:MaxRAMPercentage=75.0</code>. This leaves enough free RAM for other processes like a debug shell and doesn&rsquo;t waste too many resources.</p></div></article></main><aside><div><div><h3>LATEST POSTS</h3></div><div><ul><li><a href=/links/change-git-user-depending-current-directory-conditional-include/>Change Your Git User Depending on the Current Directory with Conditional Includes</a></li><li><a href=/articles/usecontainersupport-to-the-rescue/>+UseContainerSupport to the Rescue</a></li><li><a href=/articles/jvm-memory-settings-container-environment/>JVM Memory Settings in a Container Environment</a></li></ul></div></div></aside><footer><p>&copy; 2020 <a href=https://atamanroman.dev/><b>atamanroman.dev</b></a>
+· <a href=https://github.com/atamanroman><b>GitHub</b></a>
+· <a href=https://twitter.com/atamanroman><b>Twitter</b></a>
+· <a href=https://www.linkedin.com/in/atamanroman><b>LinkedIn</b></a>
+· <a href=https://www.xing.com/profile/Roman_Ataman><b>XING</b></a>
+· <a href=https://stackoverflow.com/users/366299/atamanroman><b>StackOverflow</b></a>
+· <a href=https://medium.com/@atamanroman><b>Medium</b></a></p></footer></body></html>
