@@ -1,11 +1,14 @@
 baseURL = "https://www.atamanroman.dev/"
 languageCode = "en-us"
-title = "atamanroman.dev"
+title = "@atamanroman - My Personal Space - IT, Development, Software Architecture and Things I Care About"
 
 [params]
   favicon = "favicon.svg"
   dateFmt = "2006-01-02"
   mainSections = ["articles", "links"]
+  author = "@atamanroman - Roman Ataman"
+  description = "My Personal Space - IT, Development, Software Architecture and Things I Care About"
+  keywords = "IT Development Software-Architecture Java Docker"
 
 [markup]
   [markup.highlight]
