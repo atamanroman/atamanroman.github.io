@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "@atamanroman - My Personal Space - IT, Development, Software Architecture and Things I Care About"
 
 [params]
-  favicon = "favicon.svg"
+  favicon = "//favicon.svg"
   dateFmt = "2006-01-02"
   mainSections = ["articles", "links"]
   author = "@atamanroman - Roman Ataman"
