@@ -19,19 +19,37 @@
 
 html {
   overflow-y: scroll;
+  /* default is 16px */
+  font-size: calc(80% + 0.5vw);
 }
 
-body{
-  font-size: calc(12px + 0.7vw);
-  line-height: calc(1.2em + 0.7vw);
-  font-family: monospace;
+body {
+  font-family: SF Mono, Monaco, monospace;  ;
+  line-height: 1.5;
   margin: 0 auto;
-  max-width: 40em;
-  padding: 0 1em;
+  width: 90%;
+  max-width: 50rem;
   color: var(--fg-color);
   background-color: var(--bg-color);
-
+  background: linear-gradient(var(--accent-color) 7rem, var(--bg-color) 7rem);
 }
+
+#logo {
+  font-size: 3em;
+  height: 7rem;
+}
+
+#logo a {
+  color: var(--bg-color);
+  text-decoration: none;
+  display: block;
+  position: absolute;
+  right: -0.1rem;
+  top: 3.7rem;
+  font-weight: 900;
+  user-select: none;
+}
+
 img, video{
   max-width: 100%;
   height: auto;
@@ -46,7 +64,7 @@ h3 {
 :not(pre) > code {
   color: var(--bg-color);
   background: var(--fg-color);
-  padding: 0.1em;
+  padding: 0.1rem;
 }
 
 code, kbd, pre {
@@ -54,10 +72,10 @@ code, kbd, pre {
 }
 
 blockquote {
-  padding: 2vw;
+  padding: 0.5rem;
   margin-left: 0;
   margin-right: 0;
-  border-left: 1vw solid royalblue;
+  border-left: 0.5rem solid royalblue;
 }
 
 blockquote > :last-child {
@@ -66,11 +84,11 @@ blockquote > :last-child {
 
 pre {
   font-size: smaller;
-  padding: 2vw;
+  padding: 1rem;
 }
 
 article {
-  padding: 1em 0;
+  padding: 1rem 0;
   overflow-wrap: break-word;
 }
 
@@ -78,12 +96,12 @@ article p {
   text-align: justify;
 }
 
-table{
+table {
   border-collapse: collapse;
   width: 100%;
 }
-td, th{
-  padding: 0.5em;
+td, th {
+  padding: 0.5rem;
   border: 1px solid;
 }
 
@@ -99,10 +117,11 @@ hr {
   width: 75%;
   border-style: dotted;
   color: var(--accent-color);
+  margin: 2rem auto;
 }
 
 aside {
-  margin: 5vw 0;
+  margin: 2rem 0;
 }
 
 .center {
@@ -115,13 +134,14 @@ aside {
 .logo, .logo:visited {
   text-align: right;
   line-height: 0.75;
-  font-size: 1vw;
+  /* needs to scale way less than the body font */
+  font-size: calc(20% + 0.5vw);
   color: var(--accent-color);
   text-decoration: none;
 }
 
 .note {
-  padding: 2vw;
+  padding: 1rem;
   background-color: cornsilk;
 }
 
