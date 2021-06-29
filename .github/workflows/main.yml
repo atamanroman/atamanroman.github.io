@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: hugo --minify
       - name: Deploy
-        if: contains(github.ref, 'master')
+        if: contains(github.ref, 'main')
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
