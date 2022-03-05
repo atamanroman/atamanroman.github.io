@@ -3,7 +3,7 @@ layout: post
 title: JVM Memory Settings in a Container Environment
 category: development
 tags: [java, jvm, docker, cgroup]
-redirect_from: articles/jvm-memory-settings-container-environment
+redirect_from: articles/jvm-memory-settings-container-environment/
 ---
 
 ## TL;DR: The Bare Minimum You Should Know Before Going Live
