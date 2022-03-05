@@ -34,3 +34,5 @@ plugins:
   - jekyll-sitemap
   - jekyll-titles-from-headings
   - jemoji
+whitelist:
+  - jekyll-redirect-from

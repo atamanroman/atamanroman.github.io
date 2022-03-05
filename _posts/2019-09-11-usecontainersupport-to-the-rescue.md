@@ -3,6 +3,7 @@ layout: post
 title: +UseContainerSupport to the Rescue
 category: development
 tags: [java, jvm, docker, cgroup]
+redirect_from: articles/usecontainersupport-to-the-rescue
 ---
 
 ## TL;DR: How the JVM Finally Plays Nice with Containers

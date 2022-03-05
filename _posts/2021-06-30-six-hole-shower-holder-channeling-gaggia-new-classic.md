@@ -1,7 +1,8 @@
 ---
 title: Six Hole Shower Holder Causes Massive Channeling on Gaggia New Classic
-categories: [espresso]
+categories: [other]
 tags: [espresso]
+redirect_from: articles/six-hole-shower-holder-channeling-gaggia-new-classic
 ---
 
 I've got my Gaggia New Classic for 3 months now.
