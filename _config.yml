@@ -1,0 +1,36 @@
+repository: atamanroman/atamanroman.github.io
+url: "https://atamanroman.dev"
+title: "atamanroman.dev"
+description: "My Personal Space: IT, Development, Software Architecture and Things I Care About"
+favicon: favicon.svg
+lsi: false
+safe: true
+incremental: false
+highlighter: rouge
+gist:
+  noscript: false
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+remote_theme: riggraz/no-style-please
+theme_config:
+  appearance: "auto" # can be "light", "dark" or "auto"
+  back_home_text: "cd .." # customize text for homepage link in post layout
+  date_format: "%Y-%m-%d" # customize how date is formatted
+  show_description: true # show blog description in home page
+plugins:
+  - jekyll-coffeescript
+  - jekyll-default-layout
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-github-metadata
+  - jekyll-mentions
+  - jekyll-optional-front-matter
+  - jekyll-paginate
+  - jekyll-readme-index
+  - jekyll-redirect-from
+  - jekyll-relative-links
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-titles-from-headings
+  - jemoji

@@ -1,7 +1,5 @@
 ---
 title: Six Hole Shower Holder Causes Massive Channeling on Gaggia New Classic
-slug: six-hole-shower-holder-channeling-gaggia-new-classic
-date: 2021-06-30
 categories: [espresso]
 tags: [espresso]
 ---
@@ -16,10 +14,9 @@ Barely any effect.
 Only very high doses and high-pressure tamps made it a little better.
 Still awful.
 
-1.5 kg of coffee later, it hit me.
-Every puck looked the same: a massive hole at 1'o clock.
+1.5 kg of coffee later, I noticed that every puck looked the same: a massive hole at 1'o clock.
 
-![Two Examples of Channeling at 1'o Clock](channeling.jpeg)
+![Two Examples of Channeling at 1'o Clock](/static/six-hole-shower-holder-channeling-gaggia-new-classic/channeling.jpeg)
 
 That made me curious.
 I checked the shower screen, cleaned it and did the same with the holder.
@@ -32,7 +29,8 @@ More holes, more better - right?
 
 **After changing it back to the stock one the problem is gone.**
 First I thought the 1'o clock hole aligns with the water stream.
-But that doesn't seem to be the case. Maybe they are to far on the edge of the puck.
+But that doesn't seem to be the case.
+Maybe they are to far on the edge of the puck.
 To be honest, I don't quite get it.
 
 But at least I'm consistently getting decent coffee again.

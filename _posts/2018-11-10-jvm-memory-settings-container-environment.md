@@ -1,21 +1,19 @@
 ---
+layout: post
 title: JVM Memory Settings in a Container Environment
-slug: jvm-memory-settings-container-environment
-date: 2018-11-10
-categories: [development]
-tags: [java, jvm, docker]
+category: development
+tags: [java, jvm, docker, cgroup]
 ---
 
 ## TL;DR: The Bare Minimum You Should Know Before Going Live
 
 Java memory management and configuration is still complex. Although the JVM can read cgroup memory limits and adapt memory usage accordingly since Java 9/8u131, it's not a golden bullet. You need to know what `-XX:+UseCGroupMemoryLimitForHeap` does and you need to fine tune some parameters for every deployment. Otherwise you risk wasting resources and money or getting your containers killed at the worst time possible. `-XX:MaxRAMFraction=1` is especially dangerous. Java 10+ brings a lot of improvements but still needs manual configuration. To be safe, load test your stuff.
-<!--more-->
 
 ---
 
 ## UPDATE: Things Have Changed for Java 8u191+ and 10/11/12+
 
-A lot has changed since Java 8u191 and things should work out of the box. So this article is partly out-of-date. We're keeping it online as a reference but please see our follow-up article [_+UseContainerSupport to the Rescue_]({{< ref "/articles/usecontainersupport-to-the-rescue.md" >}}) for more details.
+A lot has changed since Java 8u191 and things should work out of the box. So this article is partly out-of-date. We're keeping it online as a reference but please see our follow-up article [_+UseContainerSupport to the Rescue_]({% post_url 2019-09-11-usecontainersupport-to-the-rescue %}) for more details.
 
 ---
 

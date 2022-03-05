@@ -1,27 +1,25 @@
 ---
+layout: post
 title: +UseContainerSupport to the Rescue
-slug: usecontainersupport-to-the-rescue
-date: 2019-09-11
-categories: [development]
-tags: [java, jvm, docker]
+category: development
+tags: [java, jvm, docker, cgroup]
 ---
 
 ## TL;DR: How the JVM Finally Plays Nice with Containers
 
 Java 10 introduced `+UseContainerSupport` (enabled by default) which makes the JVM use sane defaults in a container environment. This feature is backported to Java 8 since [8u191](https://www.oracle.com/technetwork/java/javase/8u191-relnotes-5032181.html#JDK-8146115), potentially allowing a [huge percentage of Java deployments in the wild](https://snyk.io/blog/jvm-ecosystem-report-2018/) to properly configure their memory.
-<!--more-->
 
 ---
 
 ## Introduction
 
-_It's been a pretty busy time at [adorsys.de](https://adorsys.de), but Joe and I have finally found time to write a follow-up to our outdated-but-still-interesting article [JVM Memory Settings in a Container Environment]({{< ref "/articles/jvm-memory-settings-container-environment.md" >}}). You might want to read it for a more in-depth view how memory management in the JVM works and what happens – or used to happen – if the JVM runs in a container._
+_It's been a pretty busy time at [adorsys.de](https://adorsys.de), but Joe and I have finally found time to write a follow-up to our outdated-but-still-interesting article [JVM Memory Settings in a Container Environment]({% post_url 2018-11-10-jvm-memory-settings-container-environment %}). You might want to read it for a more in-depth view how memory management in the JVM works and what happens – or used to happen – if the JVM runs in a container._
 
 ## What is +UseContainerSupport?
 
 `-XX:+UseContainerSupport` allows the JVM to read [cgroup limits](https://en.wikipedia.org/wiki/Cgroups) like available CPUs and RAM from the host machine and configure itself accordingly. Doing so allows the JVM to die with an `OutOfMemoryError` instead of the container being killed. The flag is available on Java 8u191+, 10 and newer. **It's enabled by default on Linux machines.**
 
-The old (and somewhat broken) flags `-XX:{Min|Max}RAMFraction` are now deprecated. There is a new flag `-XX:MaxRAMPercentage`, that takes a value between _0.0_ and _100.0_ and defaults to _25.0_. So if there is a _1 GB_ memory limit, the JVM heap is limited to _~250 MB_ by default. While this can certainly be improved - depending on the RAM size and workload – it's a pretty good default [compared to the old behaviour]({{< ref "/articles/jvm-memory-settings-container-environment.md" >}}).
+The old (and somewhat broken) flags `-XX:{Min|Max}RAMFraction` are now deprecated. There is a new flag `-XX:MaxRAMPercentage`, that takes a value between _0.0_ and _100.0_ and defaults to _25.0_. So if there is a _1 GB_ memory limit, the JVM heap is limited to _~250 MB_ by default. While this can certainly be improved - depending on the RAM size and workload – it's a pretty good default [compared to the old behaviour]({% post_url 2018-11-10-jvm-memory-settings-container-environment %}).
 
 **Please note that setting `-Xmx` and `-Xms` disables the automatic heap sizing.**
 
