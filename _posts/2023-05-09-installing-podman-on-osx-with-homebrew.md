@@ -14,8 +14,8 @@ It feels bloated, and I have some mixed feelings about Docker, Inc.
 </figure>
 
 [Podman](https://podman.io/) looks promising and is usable on OS X since March 2021[^1].
-It runs Podman in a local QEMU VM which is managed via _podman machine_, similar to the _docker-machine_ application from a few years ago (which got replaced by Docker for Mac and then Docker Desktop).
-Basic container management works well and the QEMU VM seems to be fine energy-wise.
+It runs in a local QEMU VM which is managed via _podman machine_, similar to the _docker-machine_ application from a few years ago (which got replaced by Docker for Mac and then Docker Desktop).
+Basic container management works well and the VM seems to be fine energy-wise.
 And finally, the last blocking bug (for me) has been [fixed](#sidenote-broken-dns-with-earlier-podman-versions-on-os-x) - reason enough to write this blog ✌️.
 
 
