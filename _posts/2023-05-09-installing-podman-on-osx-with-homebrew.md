@@ -78,9 +78,9 @@ Login Succeeded
 ```
 
 
-## Additional Setup for <testcontainers.org>
+## Additional Setup for [testcontainers.org](https://testcontainers.org)
 
-To get <testcontainers.org> to work with Podman, the _podman machine_ needs to be rootful and _Ryuk_ must run in privileged mode[^2].
+To get [testcontainers.org](https://testcontainers.org) to work with Podman, the _podman machine_ needs to be rootful and _Ryuk_ must run in privileged mode[^2].
 
 ```sh
 $ podman machine stop
@@ -94,7 +94,7 @@ ryuk.container.privileged=true
 It looks like this is only required by Ryuk[^4], the optional resource reaper component.
 So disabling Ryuk might be an option, too.
 
-See also this (little bit dated) [quarkus.io blog post](https://quarkus.io/blog/quarkus-devservices-testcontainers-podman/) about Podman and <testcontainers.org>.
+See also this (little bit dated) [quarkus.io blog post](https://quarkus.io/blog/quarkus-devservices-testcontainers-podman/) about Podman and [testcontainers.org](https://testcontainers.org).
 
 ## Sidenote: Broken DNS with Earlier Podman Versions on OS X
 
