@@ -32,7 +32,8 @@ $ brew install docker
 # makes docker work with the podman socket
 $ sudo /usr/local/Cellar/podman/4.5.0/bin/podman-mac-helper install
 # adjust resources as you like it - this may take some time
-$ podman machine init --cpus 4 -m 4096 --now
+# without -v $HOME:$HOME volume mounts won't work
+$ podman machine init --cpus 4 -m 4096 -v $HOME:$HOME --now
 $ podman run hello-world
 
 Hello from Docker!
