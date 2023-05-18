@@ -2,7 +2,6 @@
 title: Installing Podman on OS X with Homebrew
 categories: [development]
 tags: [java, docker, osx]
-redirect_from: articles/installing-podman-on-osx-with-homebrew/
 ---
 
 I've been trying to get away from [Docker Desktop](https://www.docker.com/products/docker-desktop/) for years.
