@@ -1,0 +1,82 @@
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>
+    {%- if page.title -%}
+      {{ page.title }}
+    {%- else -%}
+      {{ site.title }}
+    {%- endif -%}
+  </title>
+
+  {%-seo title=false-%}
+  {%-feed_meta-%}
+
+  <link rel="shortcut icon" type="image/x-icon" href="{{ site.favicon | relative_url }}" />
+  <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital@0;1&family=Victor+Mono&family=Zilla+Slab:ital@0;1&display=swap" rel="stylesheet">
+
+  <style type="text/css">
+    :root {
+      --primary: PapayaWhip;
+      --primary-muted: DarkKhaki;
+      --primary-highlight: PowderBlue;
+    }
+
+
+    header h1 {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: 40pt;
+      /* not sure if non-italic is nice -> italic less tech */
+      font-style: italic;
+      line-height: 1.2;
+      margin: 0;
+      background-color: var(--primary);
+      display: inline-block;
+      padding: 3pt;
+    }
+
+    header p {
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Zilla Slab', serif;
+      font-size: 16pt;
+    }
+
+    code {
+      font-size: 12pt;
+      font-family: 'Victor Mono', monospace;
+      padding: 3pt;
+    }
+
+    a {
+      color: black;
+      text-decoration: underline 3pt var(--primary);
+      text-decoration-skip-ink: none;
+    }
+
+    a:visited {
+      text-decoration: underline 3pt var(--primary-muted);
+    }
+
+    a:hover {
+      text-decoration: underline 3pt var(--primary-highlight);
+    }
+
+    .w > a {
+      text-decoration: underline 3pt var(--primary);
+    }
+
+    a.footnote {
+      text-decoration-thickness: 2pt;
+    }
+
+  </style>
+</head>
