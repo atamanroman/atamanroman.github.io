@@ -1,3 +1,3 @@
 #!/bin/sh
 
-bundle exec jekyll serve --livereload
+exec bundle exec jekyll serve --livereload --host '0.0.0.0'

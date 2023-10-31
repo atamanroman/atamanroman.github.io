@@ -18,31 +18,30 @@
   <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital@0;1&family=Victor+Mono&family=Zilla+Slab:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Victor+Mono&family=Zilla+Slab:ital@0;1&display=swap" rel="stylesheet">
 
   <style type="text/css">
-    :root {
-      --primary: PapayaWhip;
-      --primary-muted: DarkKhaki;
-      --primary-highlight: PowderBlue;
+    /* TODO fork the theme instead of overriding so much */
+
+    /* content defaults to 640px */
+    .w {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 1rem;
     }
 
-
     header h1 {
-      font-family: 'Bodoni Moda', serif;
       font-weight: 400;
-      font-size: 40pt;
-      /* not sure if non-italic is nice -> italic less tech */
+      font-size: 30pt;
       font-style: italic;
       line-height: 1.2;
-      margin: 0;
-      background-color: var(--primary);
       display: inline-block;
-      padding: 3pt;
+      margin: 0;
+      padding: 0;
     }
 
     header p {
-      margin: 0;
+      margin: 10pt 0;
     }
 
     body {
@@ -51,31 +50,34 @@
     }
 
     code {
-      font-size: 12pt;
       font-family: 'Victor Mono', monospace;
-      padding: 3pt;
-    }
-
-    a {
+      font-size: 12pt;
+      padding: 2pt;
+      background-color: aliceblue;
       color: black;
-      text-decoration: underline 3pt var(--primary);
-      text-decoration-skip-ink: none;
     }
 
-    a:visited {
-      text-decoration: underline 3pt var(--primary-muted);
+    pre code {
+      font-size: 10pt;
     }
 
-    a:hover {
-      text-decoration: underline 3pt var(--primary-highlight);
+    ul {
+      padding-left: 20pt;
     }
 
-    .w > a {
-      text-decoration: underline 3pt var(--primary);
+    li {
+      margin: 3pt 0;
+      list-style-type: square;
     }
 
-    a.footnote {
-      text-decoration-thickness: 2pt;
+    .w > ul {
+      list-style-position: inside;
+      padding-left: 0;
+      margin-top: 0
+    }
+
+    :target {
+      background-color: unset;
     }
 
   </style>
