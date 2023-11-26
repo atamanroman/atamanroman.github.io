@@ -4,6 +4,9 @@ categories: [development]
 tags: [java, docker, osx]
 ---
 
+> **Update:** After a few strange bugs involving volumes, I've moved from Podman to [OrbStack](https://orbstack.dev), which is a great replacement for Docker for Mac.
+> I'm still waiting for proper [Docker contexts integration](https://github.com/testcontainers/testcontainers-java/issues/5837) in [testcontainers.org](https://testcontainers.org), so I can use the more minimal [colima](https://github.com/abiosoft/colima). But messing with [global ENVs](https://java.testcontainers.org/supported_docker_environment/#colima) is a big no-go for me.
+
 I've been trying to get away from [Docker Desktop](https://www.docker.com/products/docker-desktop/) for years.
 It feels bloated, and I have some mixed feelings about Docker, Inc.
 
