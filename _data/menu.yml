@@ -17,6 +17,10 @@ entries:
         url: https://linkedin.com/in/atamanroman
       - title: stackoverflow
         url: https://stackoverflow.com/users/366299/atamanroman
+  - title: about
+    entries:
+      - title: the blog
+        url: about-blog.html
 
   - title: rss
     url: feed.xml
