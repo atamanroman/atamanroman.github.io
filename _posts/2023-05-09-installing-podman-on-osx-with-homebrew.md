@@ -20,7 +20,6 @@ It runs in a local QEMU VM which is managed via _podman machine_, similar to the
 Basic container management works well and the VM seems to be fine energy-wise.
 And finally, the last blocking bug (for me) has been [fixed](#sidenote-broken-dns-with-earlier-podman-versions-on-os-x) - reason enough to write this blog ✌️.
 
-
 Here's my setup for a working Podman, Docker client and testcontainers.org setup on macOS Ventura:
 
 ```sh

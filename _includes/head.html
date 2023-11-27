@@ -5,9 +5,9 @@
 
   <title>
     {%- if page.title -%}
-      {{ page.title }}
+    {{ page.title }}
     {%- else -%}
-      {{ site.title }}
+    {{ site.title }}
     {%- endif -%}
   </title>
 
@@ -18,10 +18,42 @@
   <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Victor+Mono&family=Zilla+Slab:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital@0;1&display=swap" rel="stylesheet">
 
   <style type="text/css">
     /* TODO fork the theme instead of overriding so much */
+
+    @font-face {
+      font-family: 'Berkeley Mono';
+      font-style: normal;
+      font-weight: normal;
+      src: url('/static/fonts/BerkeleyMono-Regular.woff') format('woff'),
+        url('/static/fonts/BerkeleyMono-Regular.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Berkeley Mono';
+      font-style: italic;
+      font-weight: normal;
+      src: url('/static/fonts/BerkeleyMono-Italic.woff') format('woff'),
+        url('/static/fonts/BerkeleyMono-Italic.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Berkeley Mono';
+      font-style: normal;
+      font-weight: bold;
+      src: url('/static/fonts/BerkeleyMono-Bold.woff') format('woff'),
+        url('/static/fonts/BerkeleyMono-Bold.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Berkeley Mono';
+      font-style: italic;
+      font-weight: bold;
+      src: url('/static/fonts/BerkeleyMono-BoldItalic.woff') format('woff'),
+        url('/static/fonts/BerkeleyMono-BoldItalic.woff2') format('woff2');
+    }
 
     /* content defaults to 640px */
     .w {
@@ -49,8 +81,13 @@
       font-size: 16pt;
     }
 
+    pre.highlight {
+      background-color: aliceblue;
+      padding: 0.5rem
+    }
+
     code {
-      font-family: 'Victor Mono', monospace;
+      font-family: 'Berkeley Mono', monospace;
       font-size: 12pt;
       padding: 2pt;
       background-color: aliceblue;
@@ -70,7 +107,7 @@
       list-style-type: square;
     }
 
-    .w > ul {
+    .w>ul {
       list-style-position: inside;
       padding-left: 0;
       margin-top: 0
@@ -79,6 +116,5 @@
     :target {
       background-color: unset;
     }
-
   </style>
 </head>
