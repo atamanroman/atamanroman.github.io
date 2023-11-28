@@ -1,8 +1,8 @@
 entries:
 
-  - title: content
+  - title: blog
     post_list:
-      limit: 5
+      limit: 100
       show_more: true
       show_more_text: See archive...
       show_more_url: archive.html
@@ -17,6 +17,7 @@ entries:
         url: https://linkedin.com/in/atamanroman
       - title: stackoverflow
         url: https://stackoverflow.com/users/366299/atamanroman
+
   - title: about
     entries:
       - title: the blog
