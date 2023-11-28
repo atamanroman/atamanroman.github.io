@@ -12,7 +12,7 @@ Also, in the context of the massive X/Twitter implosion and lack of good alterna
 ## Technical Stuff
 
 This blog is built with [Jekyll](https://jekyllrb.com) and hosted on [GitHub Pages](https://pages.github.com), DNS happens at [namecheap.com](https://namecheap.com).
-The theme in use is [riggraz/no-style-please](https://github.com/riggraz/no-style-please) [(LICENSE)](https://github.com/riggraz/no-style-please/blob/master/LICENSE.txt), but I replaced the CSS with my own, minimal version.
+The theme in use is [riggraz/no-style-please](https://github.com/riggraz/no-style-please) [(LICENSE)](https://github.com/riggraz/no-style-please/blob/master/LICENSE.txt), but I messed with the CSS a lot.
 
 The font in use for the body is [Zilla Slab via Google Fonts](https://fonts.google.com/specimen/Zilla+Slab).
 Sorry for the (optional) Google dependency.
