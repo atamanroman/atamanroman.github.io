@@ -1,11 +1,18 @@
+---
 repository: atamanroman/atamanroman.github.io
-url: "https://www.atamanroman.dev"
-title: "atamanroman.dev"
-description: "My Personal Space: IT, Development, Software Architecture and Things I Care About"
+url: https://www.atamanroman.dev
+title: atamanroman.dev
+description: 'My Personal Space: IT, Development, Software Architecture and Things I Care About'
 favicon: favicon.svg
 lsi: false
 safe: true
 incremental: false
+exclude:
+  - TODO.md
+  - LICENSE.md
+  - Gemfile
+  - Gemfile.lock
+  - dev.sh
 highlighter: rouge
 gist:
   noscript: false
@@ -14,10 +21,10 @@ kramdown:
   syntax_highlighter: rouge
 remote_theme: riggraz/no-style-please
 theme_config:
-  appearance: "auto" # can be "light", "dark" or "auto"
-  back_home_text: "cd .." # customize text for homepage link in post layout
-  date_format: "%Y-%m-%d" # customize how date is formatted
-  show_description: true # show blog description in home page
+  appearance: auto
+  back_home_text: cd ..
+  date_format: '%Y-%m-%d'
+  show_description: true
 plugins:
   - jekyll-coffeescript
   - jekyll-default-layout
@@ -36,3 +43,8 @@ plugins:
   - jemoji
 whitelist:
   - jekyll-redirect-from
+defaults:
+  - scope:
+      path: cvs/**/*
+    values:
+      sitemap: false
